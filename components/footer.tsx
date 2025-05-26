@@ -9,20 +9,24 @@ export default function Footer() {
             <div className="flex items-center mb-6">
               <div className="bg-[#00D1C7] text-white p-2 rounded-full mr-2">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M3 7L12 13L21 7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  {/* Workflow nodes */}
+                  <circle cx="6" cy="6" r="2" fill="currentColor"/>
+                  <circle cx="18" cy="6" r="2" fill="currentColor"/>
+                  <circle cx="6" cy="18" r="2" fill="currentColor"/>
+                  <circle cx="18" cy="18" r="2" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+                  
+                  {/* Flow arrows */}
+                  <path d="M8 6L10 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M16 6L14 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M8 18L10 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M16 18L14 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  
+                  {/* AI brain pattern */}
+                  <path d="M10.5 10.5C10.5 10.5 11 9.5 12 10.5C13 9.5 13.5 10.5 13.5 10.5" 
+                        stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round"/>
+                  <path d="M10.5 13.5C10.5 13.5 11 14.5 12 13.5C13 14.5 13.5 13.5 13.5 13.5" 
+                        stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round"/>
                 </svg>
               </div>
               <h2 className="text-xl font-bold">AutoFlow</h2>
