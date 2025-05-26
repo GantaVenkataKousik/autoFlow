@@ -14,6 +14,14 @@ import {
   Eye,
   ArrowUpRight,
   ArrowDownRight,
+  Globe,
+  TrendingUp,
+  Activity,
+  Zap,
+  MousePointer,
+  Smartphone,
+  Monitor,
+  Tablet,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -65,6 +73,36 @@ const topPages = [
   { page: "/agents", views: 8930, uniqueViews: 7120, avgTime: "5m 12s", bounceRate: 8.7 },
   { page: "/analytics", views: 6780, uniqueViews: 5430, avgTime: "4m 28s", bounceRate: 15.2 },
   { page: "/settings", views: 4560, uniqueViews: 3890, avgTime: "2m 56s", bounceRate: 22.1 },
+]
+
+const deviceData = [
+  { device: "Desktop", users: 15420, percentage: 62.3, icon: Monitor },
+  { device: "Mobile", users: 7890, percentage: 31.9, icon: Smartphone },
+  { device: "Tablet", users: 1430, percentage: 5.8, icon: Tablet },
+]
+
+const geographicData = [
+  { country: "United States", users: 8450, percentage: 34.2, color: "#00D1C7" },
+  { country: "United Kingdom", users: 3240, percentage: 13.1, color: "#D6FF51" },
+  { country: "Germany", users: 2890, percentage: 11.7, color: "#6366F1" },
+  { country: "France", users: 2340, percentage: 9.5, color: "#10B981" },
+  { country: "Canada", users: 1890, percentage: 7.6, color: "#F59E0B" },
+  { country: "Others", users: 5930, percentage: 23.9, color: "#9CA3AF" },
+]
+
+const funnelData = [
+  { stage: "Visitors", count: 24567, percentage: 100, color: "#00D1C7" },
+  { stage: "Engaged Users", count: 18430, percentage: 75, color: "#D6FF51" },
+  { stage: "Active Sessions", count: 12340, percentage: 50.2, color: "#6366F1" },
+  { stage: "Goal Completions", count: 8920, percentage: 36.3, color: "#10B981" },
+  { stage: "Conversions", count: 4560, percentage: 18.6, color: "#F59E0B" },
+]
+
+const userFlowData = [
+  { from: "Landing Page", to: "Dashboard", users: 8450, percentage: 68.5 },
+  { from: "Dashboard", to: "Agents", users: 5780, percentage: 46.8 },
+  { from: "Agents", to: "Analytics", users: 3240, percentage: 26.2 },
+  { from: "Analytics", to: "Settings", users: 1890, percentage: 15.3 },
 ]
 
 const timeRanges = ["24h", "7d", "30d", "90d"]
@@ -186,357 +224,449 @@ export default function AnalyticsPage() {
                     <pattern id="grid" width="40" height="20" patternUnits="userSpaceOnUse">
                       <path d="M 40 0 L 0 0 0 20" fill="none" stroke="#f3f4f6" strokeWidth="1"/>
                     </pattern>
+                    <linearGradient id="engagementGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#00D1C7" stopOpacity="0.4"/>
+                      <stop offset="100%" stopColor="#00D1C7" stopOpacity="0.1"/>
+                    </linearGradient>
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid)" />
                   
-                  {/* Chart data */}
-                  {selectedMetric === "interactions" ? (
-                    <>
-                      {/* Interactions trend line */}
-                      <path
-                        d="M 20,180 L 60,160 L 100,140 L 140,120 L 180,100 L 220,80 L 260,90 L 300,70 L 340,60 L 380,40"
-                        fill="none"
-                        stroke="#00D1C7"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      {/* Data points */}
-                      {[
-                        { x: 20, y: 180 }, { x: 60, y: 160 }, { x: 100, y: 140 }, { x: 140, y: 120 },
-                        { x: 180, y: 100 }, { x: 220, y: 80 }, { x: 260, y: 90 }, { x: 300, y: 70 },
-                        { x: 340, y: 60 }, { x: 380, y: 40 }
-                      ].map((point, index) => (
-                        <circle key={index} cx={point.x} cy={point.y} r="4" fill="#00D1C7" />
-                      ))}
-                      {/* Area fill */}
-                      <path
-                        d="M 20,180 L 60,160 L 100,140 L 140,120 L 180,100 L 220,80 L 260,90 L 300,70 L 340,60 L 380,40 L 380,200 L 20,200 Z"
-                        fill="url(#gradient1)"
-                      />
-                      <defs>
-                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#00D1C7" stopOpacity="0.3"/>
-                          <stop offset="100%" stopColor="#00D1C7" stopOpacity="0.05"/>
-                        </linearGradient>
-                      </defs>
-                    </>
-                  ) : (
-                    <>
-                      {/* Users trend line */}
-                      <path
-                        d="M 20,160 L 60,150 L 100,130 L 140,110 L 180,95 L 220,85 L 260,80 L 300,75 L 340,65 L 380,50"
-                        fill="none"
-                        stroke="#6366F1"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      {/* Data points */}
-                      {[
-                        { x: 20, y: 160 }, { x: 60, y: 150 }, { x: 100, y: 130 }, { x: 140, y: 110 },
-                        { x: 180, y: 95 }, { x: 220, y: 85 }, { x: 260, y: 80 }, { x: 300, y: 75 },
-                        { x: 340, y: 65 }, { x: 380, y: 50 }
-                      ].map((point, index) => (
-                        <circle key={index} cx={point.x} cy={point.y} r="4" fill="#6366F1" />
-                      ))}
-                      {/* Area fill */}
-                      <path
-                        d="M 20,160 L 60,150 L 100,130 L 140,110 L 180,95 L 220,85 L 260,80 L 300,75 L 340,65 L 380,50 L 380,200 L 20,200 Z"
-                        fill="url(#gradient2)"
-                      />
-                      <defs>
-                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3"/>
-                          <stop offset="100%" stopColor="#6366F1" stopOpacity="0.05"/>
-                        </linearGradient>
-                      </defs>
-                    </>
-                  )}
-                  
                   {/* Y-axis labels */}
-                  <text x="5" y="50" fontSize="12" fill="#6b7280">100k</text>
-                  <text x="5" y="100" fontSize="12" fill="#6b7280">50k</text>
-                  <text x="5" y="150" fontSize="12" fill="#6b7280">25k</text>
-                  <text x="5" y="195" fontSize="12" fill="#6b7280">0</text>
+                  <text x="15" y="25" fontSize="10" fill="#6b7280">100%</text>
+                  <text x="15" y="65" fontSize="10" fill="#6b7280">75%</text>
+                  <text x="15" y="105" fontSize="10" fill="#6b7280">50%</text>
+                  <text x="15" y="145" fontSize="10" fill="#6b7280">25%</text>
+                  <text x="15" y="185" fontSize="10" fill="#6b7280">0%</text>
                   
                   {/* X-axis labels */}
-                  <text x="20" y="195" fontSize="10" fill="#6b7280">Week 1</text>
-                  <text x="120" y="195" fontSize="10" fill="#6b7280">Week 2</text>
+                  <text x="60" y="195" fontSize="10" fill="#6b7280">Week 1</text>
+                  <text x="140" y="195" fontSize="10" fill="#6b7280">Week 2</text>
                   <text x="220" y="195" fontSize="10" fill="#6b7280">Week 3</text>
-                  <text x="320" y="195" fontSize="10" fill="#6b7280">Week 4</text>
+                  <text x="300" y="195" fontSize="10" fill="#6b7280">Week 4</text>
+                  
+                  {/* Area chart */}
+                  <path
+                    d="M40,160 L100,140 L160,120 L220,100 L280,80 L340,60 L380,40 L380,180 L40,180 Z"
+                    fill="url(#engagementGradient)"
+                  />
+                  
+                  {/* Line chart */}
+                  <path
+                    d="M40,160 L100,140 L160,120 L220,100 L280,80 L340,60 L380,40"
+                    fill="none"
+                    stroke="#00D1C7"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  
+                  {/* Data points */}
+                  <circle cx="40" cy="160" r="4" fill="#00D1C7"/>
+                  <circle cx="100" cy="140" r="4" fill="#00D1C7"/>
+                  <circle cx="160" cy="120" r="4" fill="#00D1C7"/>
+                  <circle cx="220" cy="100" r="4" fill="#00D1C7"/>
+                  <circle cx="280" cy="80" r="4" fill="#00D1C7"/>
+                  <circle cx="340" cy="60" r="4" fill="#00D1C7"/>
+                  <circle cx="380" cy="40" r="4" fill="#00D1C7"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Device Distribution */}
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Device Distribution</h3>
+              <div className="space-y-4">
+                {deviceData.map((device, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-[#00D1C7] p-2 rounded-lg">
+                        <device.icon className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{device.device}</p>
+                        <p className="text-xs text-gray-500">{device.users.toLocaleString()} users</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-[#00D1C7]"
+                          style={{ width: `${device.percentage}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm text-gray-500 w-12">{device.percentage}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Device Usage Donut Chart */}
+              <div className="mt-6 flex justify-center">
+                <svg width="200" height="200" viewBox="0 0 200 200">
+                  <defs>
+                    {deviceData.map((device, index) => (
+                      <linearGradient key={index} id={`deviceGradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor={index === 0 ? "#00D1C7" : index === 1 ? "#D6FF51" : "#6366F1"} stopOpacity="1"/>
+                        <stop offset="100%" stopColor={index === 0 ? "#00D1C7" : index === 1 ? "#D6FF51" : "#6366F1"} stopOpacity="0.7"/>
+                      </linearGradient>
+                    ))}
+                  </defs>
+                  
+                  <g transform="translate(100, 100)">
+                    {deviceData.map((device, index) => {
+                      const total = deviceData.reduce((sum, d) => sum + d.percentage, 0)
+                      const percentage = device.percentage / total
+                      const angle = percentage * 2 * Math.PI
+                      const startAngle = deviceData.slice(0, index).reduce((sum, d) => sum + (d.percentage / total) * 2 * Math.PI, 0)
+                      const endAngle = startAngle + angle
+                      
+                      const x1 = Math.cos(startAngle) * 70
+                      const y1 = Math.sin(startAngle) * 70
+                      const x2 = Math.cos(endAngle) * 70
+                      const y2 = Math.sin(endAngle) * 70
+                      
+                      const x3 = Math.cos(startAngle) * 40
+                      const y3 = Math.sin(startAngle) * 40
+                      const x4 = Math.cos(endAngle) * 40
+                      const y4 = Math.sin(endAngle) * 40
+                      
+                      const largeArcFlag = angle > Math.PI ? 1 : 0
+                      
+                      return (
+                        <path
+                          key={index}
+                          d={`M ${x3} ${y3} L ${x1} ${y1} A 70 70 0 ${largeArcFlag} 1 ${x2} ${y2} L ${x4} ${y4} A 40 40 0 ${largeArcFlag} 0 ${x3} ${y3} Z`}
+                          fill={`url(#deviceGradient-${index})`}
+                          stroke="white"
+                          strokeWidth="2"
+                        />
+                      )
+                    })}
+                  </g>
+                  
+                  {/* Center text */}
+                  <text x="100" y="95" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#374151">Total</text>
+                  <text x="100" y="115" textAnchor="middle" fontSize="20" fontWeight="bold" fill="#374151">
+                    {deviceData.reduce((sum, d) => sum + d.users, 0).toLocaleString()}
+                  </text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Geographic Distribution and Conversion Funnel */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* Geographic Distribution */}
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Geographic Distribution</h3>
+              <div className="space-y-3">
+                {geographicData.map((country, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: country.color }}></div>
+                      <span className="text-sm text-gray-900">{country.country}</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full"
+                          style={{ 
+                            width: `${country.percentage}%`, 
+                            backgroundColor: country.color 
+                          }}
+                        ></div>
+                      </div>
+                      <span className="text-sm text-gray-500 w-12">{country.percentage}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* World Map Visualization */}
+              <div className="mt-6 bg-gray-50 rounded-lg p-4">
+                <svg width="100%" height="120" viewBox="0 0 400 120">
+                  {/* Simplified world map representation */}
+                  <rect x="50" y="30" width="80" height="60" rx="8" fill="#00D1C7" opacity="0.8"/>
+                  <text x="90" y="65" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">US</text>
+                  
+                  <rect x="140" y="25" width="60" height="50" rx="6" fill="#D6FF51" opacity="0.8"/>
+                  <text x="170" y="55" textAnchor="middle" fontSize="10" fill="#374151" fontWeight="bold">UK</text>
+                  
+                  <rect x="210" y="28" width="55" height="55" rx="6" fill="#6366F1" opacity="0.8"/>
+                  <text x="237" y="60" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">DE</text>
+                  
+                  <rect x="275" y="32" width="50" height="48" rx="6" fill="#10B981" opacity="0.8"/>
+                  <text x="300" y="60" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">FR</text>
+                  
+                  <rect x="335" y="20" width="45" height="65" rx="6" fill="#F59E0B" opacity="0.8"/>
+                  <text x="357" y="57" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">CA</text>
                 </svg>
               </div>
             </div>
 
             {/* Conversion Funnel */}
             <div className="bg-white p-6 rounded-lg shadow">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium text-gray-900">Conversion Funnel</h3>
-                <Eye className="h-5 w-5 text-gray-400" />
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-[#00D1C7]/10 rounded-lg">
-                  <span className="text-sm font-medium">Visitors</span>
-                  <span className="text-lg font-bold">24,567</span>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-[#D6FF51]/20 rounded-lg">
-                  <span className="text-sm font-medium">Engaged Users</span>
-                  <span className="text-lg font-bold">18,432</span>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-[#6366F1]/10 rounded-lg">
-                  <span className="text-sm font-medium">Active Sessions</span>
-                  <span className="text-lg font-bold">12,890</span>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-green-100 rounded-lg">
-                  <span className="text-sm font-medium">Conversions</span>
-                  <span className="text-lg font-bold">3,245</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Channel Performance */}
-          <div className="bg-white rounded-lg shadow mb-8">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Channel Performance</h3>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Channel
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Users
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Sessions
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Conversion Rate
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Performance
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {channelData.map((channel, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{channel.name}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {channel.users.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {channel.sessions.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{channel.conversion}%</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
-                            <div
-                              className={`h-2 rounded-full ${
-                                channel.conversion >= 30
-                                  ? "bg-green-500"
-                                  : channel.conversion >= 20
-                                    ? "bg-yellow-500"
-                                    : "bg-red-500"
-                              }`}
-                              style={{ width: `${Math.min(channel.conversion * 2, 100)}%` }}
-                            />
-                          </div>
-                          <span
-                            className={`text-sm ${
-                              channel.conversion >= 30
-                                ? "text-green-600"
-                                : channel.conversion >= 20
-                                  ? "text-yellow-600"
-                                  : "text-red-600"
-                            }`}
-                          >
-                            {channel.conversion >= 30
-                              ? "Excellent"
-                              : channel.conversion >= 20
-                                ? "Good"
-                                : "Needs Improvement"}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Page Analytics */}
-          <div className="bg-white rounded-lg shadow mb-8">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Top Pages</h3>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Page
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Views
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Unique Views
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Avg Time
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Bounce Rate
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {topPages.map((page, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{page.page}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {page.views.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {page.uniqueViews.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{page.avgTime}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            page.bounceRate <= 15
-                              ? "bg-green-100 text-green-800"
-                              : page.bounceRate <= 25
-                                ? "bg-yellow-100 text-yellow-800"
-                                : "bg-red-100 text-red-800"
-                          }`}
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Conversion Funnel</h3>
+              <div className="space-y-2">
+                {funnelData.map((stage, index) => (
+                  <div key={index} className="relative">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-gray-900">{stage.stage}</span>
+                      <span className="text-sm text-gray-500">{stage.count.toLocaleString()}</span>
+                    </div>
+                    <div className="relative">
+                      <div className="w-full bg-gray-200 rounded-full h-8">
+                        <div
+                          className="h-8 rounded-full flex items-center justify-center text-white text-xs font-medium"
+                          style={{ 
+                            width: `${stage.percentage}%`, 
+                            backgroundColor: stage.color 
+                          }}
                         >
-                          {page.bounceRate}%
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          {stage.percentage}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Funnel Visualization */}
+              <div className="mt-6">
+                <svg width="100%" height="200" viewBox="0 0 300 200">
+                  {funnelData.map((stage, index) => {
+                    const width = (stage.percentage / 100) * 250
+                    const x = (300 - width) / 2
+                    const y = index * 35 + 10
+                    
+                    return (
+                      <g key={index}>
+                        <rect
+                          x={x}
+                          y={y}
+                          width={width}
+                          height="25"
+                          fill={stage.color}
+                          rx="4"
+                          opacity="0.8"
+                        />
+                        <text
+                          x="150"
+                          y={y + 17}
+                          textAnchor="middle"
+                          fontSize="11"
+                          fill="white"
+                          fontWeight="bold"
+                        >
+                          {stage.stage}
+                        </text>
+                      </g>
+                    )
+                  })}
+                </svg>
+              </div>
             </div>
           </div>
 
-          {/* Real-time Analytics */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* User Flow and Real-time Metrics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* User Flow */}
             <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-medium text-gray-900 mb-6">Real-time Activity</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-6">User Flow Analysis</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
-                    <span className="text-sm">Active Users</span>
+                {userFlowData.map((flow, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-[#00D1C7] p-2 rounded-full">
+                        <MousePointer className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{flow.from} → {flow.to}</p>
+                        <p className="text-xs text-gray-500">{flow.users.toLocaleString()} users</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-gray-900">{flow.percentage}%</p>
+                      <p className="text-xs text-gray-500">conversion</p>
+                    </div>
                   </div>
-                  <span className="text-lg font-bold text-green-600">247</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-                    <span className="text-sm">Active Sessions</span>
-                  </div>
-                  <span className="text-lg font-bold text-blue-600">189</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
-                    <span className="text-sm">Page Views/min</span>
-                  </div>
-                  <span className="text-lg font-bold text-purple-600">1,234</span>
-                </div>
+                ))}
+              </div>
+              
+              {/* Flow Diagram */}
+              <div className="mt-6">
+                <svg width="100%" height="150" viewBox="0 0 400 150">
+                  {/* Flow connections */}
+                  <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#00D1C7" />
+                    </marker>
+                  </defs>
+                  
+                  {/* Nodes */}
+                  <circle cx="50" cy="75" r="20" fill="#00D1C7" opacity="0.8"/>
+                  <text x="50" y="80" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">LP</text>
+                  
+                  <circle cx="150" cy="75" r="18" fill="#D6FF51" opacity="0.8"/>
+                  <text x="150" y="80" textAnchor="middle" fontSize="10" fill="#374151" fontWeight="bold">DB</text>
+                  
+                  <circle cx="250" cy="75" r="16" fill="#6366F1" opacity="0.8"/>
+                  <text x="250" y="80" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">AG</text>
+                  
+                  <circle cx="350" cy="75" r="14" fill="#10B981" opacity="0.8"/>
+                  <text x="350" y="80" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">AN</text>
+                  
+                  {/* Flow arrows */}
+                  <line x1="70" y1="75" x2="130" y2="75" stroke="#00D1C7" strokeWidth="3" markerEnd="url(#arrowhead)"/>
+                  <line x1="170" y1="75" x2="230" y2="75" stroke="#00D1C7" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+                  <line x1="270" y1="75" x2="330" y2="75" stroke="#00D1C7" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
+                  
+                  {/* Flow percentages */}
+                  <text x="100" y="65" textAnchor="middle" fontSize="10" fill="#6b7280">68.5%</text>
+                  <text x="200" y="65" textAnchor="middle" fontSize="10" fill="#6b7280">46.8%</text>
+                  <text x="300" y="65" textAnchor="middle" fontSize="10" fill="#6b7280">26.2%</text>
+                </svg>
               </div>
             </div>
 
+            {/* Real-time Metrics */}
             <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-medium text-gray-900 mb-6">Geographic Distribution</h3>
-              <div className="h-64 rounded-lg p-4">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-4 h-3 bg-blue-500 rounded-sm mr-3"></div>
-                      <span className="text-sm font-medium">United States</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                        <div className="w-28 h-2 bg-blue-500 rounded-full"></div>
-                      </div>
-                      <span className="text-sm font-bold">42.3%</span>
-                    </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Real-time Metrics</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Active Users */}
+                <div className="text-center">
+                  <div className="bg-[#00D1C7] p-4 rounded-lg mb-3">
+                    <Activity className="h-8 w-8 text-white mx-auto" />
                   </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-4 h-3 bg-green-500 rounded-sm mr-3"></div>
-                      <span className="text-sm font-medium">Canada</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                        <div className="w-20 h-2 bg-green-500 rounded-full"></div>
-                      </div>
-                      <span className="text-sm font-bold">28.7%</span>
-                    </div>
+                  <p className="text-2xl font-bold text-gray-900">1,247</p>
+                  <p className="text-sm text-gray-500">Active Users</p>
+                </div>
+                
+                {/* Page Views */}
+                <div className="text-center">
+                  <div className="bg-[#D6FF51] p-4 rounded-lg mb-3">
+                    <Eye className="h-8 w-8 text-black mx-auto" />
                   </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-4 h-3 bg-purple-500 rounded-sm mr-3"></div>
-                      <span className="text-sm font-medium">United Kingdom</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                        <div className="w-12 h-2 bg-purple-500 rounded-full"></div>
-                      </div>
-                      <span className="text-sm font-bold">15.2%</span>
-                    </div>
+                  <p className="text-2xl font-bold text-gray-900">3,456</p>
+                  <p className="text-sm text-gray-500">Page Views</p>
+                </div>
+                
+                {/* Bounce Rate */}
+                <div className="text-center">
+                  <div className="bg-[#6366F1] p-4 rounded-lg mb-3">
+                    <TrendingUp className="h-8 w-8 text-white mx-auto" />
                   </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-4 h-3 bg-orange-500 rounded-sm mr-3"></div>
-                      <span className="text-sm font-medium">Germany</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                        <div className="w-8 h-2 bg-orange-500 rounded-full"></div>
-                      </div>
-                      <span className="text-sm font-bold">8.9%</span>
-                    </div>
+                  <p className="text-2xl font-bold text-gray-900">23.4%</p>
+                  <p className="text-sm text-gray-500">Bounce Rate</p>
+                </div>
+                
+                {/* Conversion Rate */}
+                <div className="text-center">
+                  <div className="bg-[#10B981] p-4 rounded-lg mb-3">
+                    <Zap className="h-8 w-8 text-white mx-auto" />
                   </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-4 h-3 bg-red-500 rounded-sm mr-3"></div>
-                      <span className="text-sm font-medium">Australia</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                        <div className="w-6 h-2 bg-red-500 rounded-full"></div>
-                      </div>
-                      <span className="text-sm font-bold">4.9%</span>
-                    </div>
+                  <p className="text-2xl font-bold text-gray-900">4.7%</p>
+                  <p className="text-sm text-gray-500">Conversion</p>
+                </div>
+              </div>
+              
+              {/* Real-time Activity Feed */}
+              <div className="mt-6">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Live Activity</h4>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span className="text-gray-600">User from US visited /dashboard</span>
+                    <span className="text-gray-400">2s ago</span>
                   </div>
-                  
-                  <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Total Countries</span>
-                      <span className="font-bold">47</span>
-                    </div>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                    <span className="text-gray-600">New session started from UK</span>
+                    <span className="text-gray-400">5s ago</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                    <span className="text-gray-600">Goal completed by user from DE</span>
+                    <span className="text-gray-400">12s ago</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                    <span className="text-gray-600">Agent interaction from CA</span>
+                    <span className="text-gray-400">18s ago</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Channel Performance and Top Pages */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* Channel Performance */}
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Channel Performance</h3>
+              <div className="space-y-4">
+                {channelData.map((channel, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-medium text-gray-900">{channel.name}</h4>
+                      <span className="text-sm text-gray-500">{channel.conversion}% conversion</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500">Users</p>
+                        <p className="font-semibold">{channel.users.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Sessions</p>
+                        <p className="font-semibold">{channel.sessions.toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-[#00D1C7]"
+                          style={{ width: `${(channel.conversion / 50) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Top Pages */}
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Top Pages</h3>
+              <div className="space-y-4">
+                {topPages.map((page, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-medium text-gray-900">{page.page}</h4>
+                      <span className="text-sm text-gray-500">{page.bounceRate}% bounce</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500">Views</p>
+                        <p className="font-semibold">{page.views.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Unique</p>
+                        <p className="font-semibold">{page.uniqueViews.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Avg Time</p>
+                        <p className="font-semibold">{page.avgTime}</p>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="h-2 rounded-full bg-[#D6FF51]"
+                          style={{ width: `${100 - page.bounceRate}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
