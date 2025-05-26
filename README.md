@@ -33,6 +33,19 @@
 - **Boost Productivity**: Increase team productivity by 50%
 - **Minimize Errors**: Reduce human error by 90%
 
+## Preview
+
+![Screenshot 2025-05-26 233533](https://github.com/user-attachments/assets/41507db2-9969-41fb-8893-a5e6359c2ea1)
+![Screenshot 2025-05-26 235059](https://github.com/user-attachments/assets/ddc800c9-c78d-4579-8703-dedb5021c183)
+![Screenshot 2025-05-26 235151](https://github.com/user-attachments/assets/10da2cbb-093d-4994-9c23-268e089b2d90)
+![Screenshot 2025-05-26 235233](https://github.com/user-attachments/assets/c4f8bf84-5a28-49fe-b96e-f10f1030bd98)
+![Screenshot 2025-05-26 235254](https://github.com/user-attachments/assets/4d1c37ac-78ed-4bb7-b955-441290a9440d)
+![Screenshot 2025-05-26 235112](https://github.com/user-attachments/assets/6280f58e-984a-41f6-969d-824397cf6c05)
+![Screenshot 2025-05-26 233717](https://github.com/user-attachments/assets/59268762-6416-4706-8559-a5111b5f510b)
+![Screenshot 2025-05-26 235137](https://github.com/user-attachments/assets/f3c114d5-94a4-4c20-a908-843c000329f3)
+![Screenshot 2025-05-26 235105](https://github.com/user-attachments/assets/b0836fe5-c822-463e-8c37-dca991c20da3)
+
+
 ## 🏗️ Tech Stack
 
 ### Frontend
