@@ -16,6 +16,11 @@ import {
   AlertTriangle,
   MessageSquare,
   TrendingUp,
+  Clock,
+  Users,
+  Zap,
+  Target,
+  BarChart3,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -77,6 +82,24 @@ const agents = [
 
 const agentTypes = ["All", "Support", "Sales", "Analytics", "Moderation"]
 
+const performanceData = [
+  { time: "00:00", support: 95, sales: 88, analytics: 100, moderation: 92 },
+  { time: "04:00", support: 97, sales: 85, analytics: 98, moderation: 94 },
+  { time: "08:00", support: 99, sales: 92, analytics: 100, moderation: 96 },
+  { time: "12:00", support: 96, sales: 94, analytics: 99, moderation: 93 },
+  { time: "16:00", support: 98, sales: 89, analytics: 100, moderation: 95 },
+  { time: "20:00", support: 94, sales: 87, analytics: 98, moderation: 91 },
+]
+
+const interactionHeatmap = [
+  { hour: "00", mon: 12, tue: 15, wed: 18, thu: 14, fri: 22, sat: 8, sun: 6 },
+  { hour: "04", mon: 8, tue: 10, wed: 12, thu: 9, fri: 15, sat: 5, sun: 4 },
+  { hour: "08", mon: 45, tue: 52, wed: 48, thu: 50, fri: 55, sat: 25, sun: 20 },
+  { hour: "12", mon: 65, tue: 70, wed: 68, thu: 72, fri: 75, sat: 40, sun: 35 },
+  { hour: "16", mon: 55, tue: 60, wed: 58, thu: 62, fri: 65, sat: 35, sun: 30 },
+  { hour: "20", mon: 35, tue: 40, wed: 38, thu: 42, fri: 45, sat: 50, sun: 45 },
+]
+
 export default function AgentsPage() {
   const [selectedType, setSelectedType] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
@@ -111,6 +134,14 @@ export default function AgentsPage() {
       default:
         return <AlertTriangle className="h-4 w-4" />
     }
+  }
+
+  const getHeatmapColor = (value: number) => {
+    if (value >= 60) return "#00D1C7"
+    if (value >= 40) return "#D6FF51"
+    if (value >= 20) return "#6366F1"
+    if (value >= 10) return "#10B981"
+    return "#F3F4F6"
   }
 
   return (
@@ -177,6 +208,171 @@ export default function AgentsPage() {
                   <p className="text-sm font-medium text-gray-500">Avg Performance</p>
                   <p className="text-2xl font-bold text-gray-900">94.2%</p>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Performance Trends and Interaction Heatmap */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* Performance Trends */}
+            <div className="bg-white shadow rounded-lg p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">24-Hour Performance Trends</h3>
+              <div className="h-64">
+                <svg width="100%" height="100%" viewBox="0 0 400 200">
+                  <defs>
+                    <linearGradient id="supportGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#00D1C7" stopOpacity="0.3"/>
+                      <stop offset="100%" stopColor="#00D1C7" stopOpacity="0.1"/>
+                    </linearGradient>
+                    <linearGradient id="salesGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#D6FF51" stopOpacity="0.3"/>
+                      <stop offset="100%" stopColor="#D6FF51" stopOpacity="0.1"/>
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Grid */}
+                  <defs>
+                    <pattern id="performanceGrid" width="40" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 20" fill="none" stroke="#f3f4f6" strokeWidth="1"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#performanceGrid)" />
+                  
+                  {/* Y-axis labels */}
+                  <text x="15" y="25" fontSize="10" fill="#6b7280">100%</text>
+                  <text x="15" y="65" fontSize="10" fill="#6b7280">90%</text>
+                  <text x="15" y="105" fontSize="10" fill="#6b7280">80%</text>
+                  <text x="15" y="145" fontSize="10" fill="#6b7280">70%</text>
+                  <text x="15" y="185" fontSize="10" fill="#6b7280">60%</text>
+                  
+                  {/* X-axis labels */}
+                  {performanceData.map((data, index) => (
+                    <text key={index} x={50 + index * 55} y="195" fontSize="10" fill="#6b7280">{data.time}</text>
+                  ))}
+                  
+                  {/* Support line */}
+                  <path 
+                    d={`M${performanceData.map((data, index) => `${50 + index * 55},${200 - (data.support * 1.8)}`).join(' L')}`}
+                    fill="none" 
+                    stroke="#00D1C7" 
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  
+                  {/* Sales line */}
+                  <path 
+                    d={`M${performanceData.map((data, index) => `${50 + index * 55},${200 - (data.sales * 1.8)}`).join(' L')}`}
+                    fill="none" 
+                    stroke="#D6FF51" 
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  
+                  {/* Analytics line */}
+                  <path 
+                    d={`M${performanceData.map((data, index) => `${50 + index * 55},${200 - (data.analytics * 1.8)}`).join(' L')}`}
+                    fill="none" 
+                    stroke="#6366F1" 
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  
+                  {/* Data points */}
+                  {performanceData.map((data, index) => (
+                    <g key={index}>
+                      <circle cx={50 + index * 55} cy={200 - (data.support * 1.8)} r="4" fill="#00D1C7"/>
+                      <circle cx={50 + index * 55} cy={200 - (data.sales * 1.8)} r="4" fill="#D6FF51"/>
+                      <circle cx={50 + index * 55} cy={200 - (data.analytics * 1.8)} r="4" fill="#6366F1"/>
+                    </g>
+                  ))}
+                  
+                  {/* Legend */}
+                  <g transform="translate(40, 15)">
+                    <circle cx="8" cy="5" r="4" fill="#00D1C7"/>
+                    <text x="18" y="9" fontSize="11" fill="#374151">Support</text>
+                    
+                    <circle cx="70" cy="5" r="4" fill="#D6FF51"/>
+                    <text x="80" y="9" fontSize="11" fill="#374151">Sales</text>
+                    
+                    <circle cx="120" cy="5" r="4" fill="#6366F1"/>
+                    <text x="130" y="9" fontSize="11" fill="#374151">Analytics</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            {/* Interaction Heatmap */}
+            <div className="bg-white shadow rounded-lg p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Weekly Interaction Heatmap</h3>
+              <div className="space-y-2">
+                <div className="grid grid-cols-8 gap-1 text-xs text-gray-500 mb-2">
+                  <div></div>
+                  <div className="text-center">Mon</div>
+                  <div className="text-center">Tue</div>
+                  <div className="text-center">Wed</div>
+                  <div className="text-center">Thu</div>
+                  <div className="text-center">Fri</div>
+                  <div className="text-center">Sat</div>
+                  <div className="text-center">Sun</div>
+                </div>
+                {interactionHeatmap.map((row, index) => (
+                  <div key={index} className="grid grid-cols-8 gap-1">
+                    <div className="text-xs text-gray-500 flex items-center">{row.hour}:00</div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.mon), color: row.mon >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.mon}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.tue), color: row.tue >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.tue}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.wed), color: row.wed >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.wed}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.thu), color: row.thu >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.thu}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.fri), color: row.fri >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.fri}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.sat), color: row.sat >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.sat}
+                    </div>
+                    <div 
+                      className="h-8 rounded flex items-center justify-center text-xs font-medium"
+                      style={{ backgroundColor: getHeatmapColor(row.sun), color: row.sun >= 40 ? 'white' : '#374151' }}
+                    >
+                      {row.sun}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
+                <span>Less</span>
+                <div className="flex space-x-1">
+                  <div className="w-3 h-3 rounded" style={{ backgroundColor: '#F3F4F6' }}></div>
+                  <div className="w-3 h-3 rounded" style={{ backgroundColor: '#10B981' }}></div>
+                  <div className="w-3 h-3 rounded" style={{ backgroundColor: '#6366F1' }}></div>
+                  <div className="w-3 h-3 rounded" style={{ backgroundColor: '#D6FF51' }}></div>
+                  <div className="w-3 h-3 rounded" style={{ backgroundColor: '#00D1C7' }}></div>
+                </div>
+                <span>More</span>
               </div>
             </div>
           </div>
@@ -273,6 +469,31 @@ export default function AgentsPage() {
                   </div>
                 </div>
 
+                {/* Mini Performance Chart */}
+                <div className="mb-4">
+                  <p className="text-sm text-gray-500 mb-2">Performance Trend</p>
+                  <svg width="100%" height="40" viewBox="0 0 200 40">
+                    <path 
+                      d={agent.status === "active" 
+                        ? "M10,30 L30,25 L50,20 L70,15 L90,18 L110,12 L130,8 L150,10 L170,5 L190,7"
+                        : agent.status === "processing"
+                        ? "M10,20 L30,22 L50,18 L70,20 L90,16 L110,18 L130,14 L150,16 L170,12 L190,10"
+                        : "M10,35 L30,35 L50,35 L70,35 L90,35 L110,35 L130,35 L150,35 L170,35 L190,35"
+                      }
+                      fill="none" 
+                      stroke={agent.status === "active" ? "#00D1C7" : agent.status === "processing" ? "#6366F1" : "#9CA3AF"}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <circle 
+                      cx="190" 
+                      cy={agent.status === "active" ? "7" : agent.status === "processing" ? "10" : "35"} 
+                      r="3" 
+                      fill={agent.status === "active" ? "#00D1C7" : agent.status === "processing" ? "#6366F1" : "#9CA3AF"}
+                    />
+                  </svg>
+                </div>
+
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   <p className="text-sm text-gray-500">Last active: {agent.lastActive}</p>
                   <div className="flex space-x-2">
@@ -289,6 +510,54 @@ export default function AgentsPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Agent Comparison Chart */}
+          <div className="bg-white shadow rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Agent Performance Comparison</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Response Time Comparison */}
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 mb-4">Average Response Time</h4>
+                <div className="space-y-3">
+                  {agents.filter(agent => agent.avgResponseTime !== "N/A").map((agent, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">{agent.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full bg-[#00D1C7]"
+                            style={{ width: `${100 - (parseFloat(agent.avgResponseTime) * 20)}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-gray-500 w-8">{agent.avgResponseTime}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Satisfaction Comparison */}
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 mb-4">Customer Satisfaction</h4>
+                <div className="space-y-3">
+                  {agents.filter(agent => agent.satisfaction > 0).map((agent, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">{agent.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full bg-[#D6FF51]"
+                            style={{ width: `${(agent.satisfaction / 5) * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-gray-500 w-8">{agent.satisfaction}/5</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Performance Overview */}
